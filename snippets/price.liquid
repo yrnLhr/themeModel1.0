@@ -53,6 +53,10 @@
       </span>
     </div>
     <div class="price__sale">
+      <span class="price-item price-item--sale price-item--last" style="color: red">
+        {{ money_price }}
+      </span>
+      <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
       {%- unless product.price_varies == false and product.compare_at_price_varies %}
         <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.regular_price' | t }}</span>
         <span>
@@ -65,10 +69,6 @@
           </s>
         </span>
       {%- endunless -%}
-      <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
-      <span class="price-item price-item--sale price-item--last" style="color: red">
-        {{ money_price }}
-      </span>
     </div>
     <small class="unit-price caption{% if product.selected_or_first_available_variant.unit_price_measurement == nil %} hidden{% endif %}">
       <span class="visually-hidden">{{ 'products.product.price.unit_price' | t }}</span>
@@ -85,7 +85,7 @@
       </span>
     </small>
   </div>
-  {%- if show_badges and price > compare_at_price -%}
+  {%- if show_badges and price < compare_at_price -%}
     <!--
       <span class="badge price__badge-sale color-{{ settings.sale_badge_color_scheme }}">
         {{ 'products.product.on_sale' | t }}
@@ -97,21 +97,19 @@
     -->
     {% assign originalPrice = compare_at_price | plus: 0.0 %}
     {% assign saleNum = price | plus: 0.0 %}
-    <span
+    <div
       style="
-        background-image: linear-gradient(to right, #ff5252, #ff8a00);
-        font-size: 1.8rem;
-        line-height: 25px;
-        width: 35px;
-        color: #f3e387;
-        height: 25px;
-        border-radius: 0.25rem;
-        font-weight: bold;
-        text-align: center;
-        white-space: nowrap;
+        display: inline-block;
+        background-color: #d61b1b;
+        padding: 0px 5px;
+        color: white;
+        border-radius: 12px;
+        font-size: 16px;
+        height: 24px;
+        line-height: 24px;
       "
     >
-      <span style="margin-left: -0.4rem;">{{- saleNum | divided_by: originalPrice | times: 100 | round: 1 }}%</span>
-    </span>
+      {{ originalPrice | minus: saleNum | divided_by: originalPrice | times: 100 | round: 1 }}% OFF
+    </div>
   {%- endif -%}
 </div>
