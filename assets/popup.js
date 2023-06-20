@@ -87,7 +87,7 @@ if (urlParams.get('show')) {
   if (userJourney[0] === 'first') {
     $('#tip').css({ display: 'block' })
     $('#msg').append(
-      '<div style="font-size: 15px;"> Automatically Applied at Checkout!</div>'
+      '<div style="font-size: 25px;">Instantly claimed!</div><div style="font-size: 15px;"> Discount automatically applied at checkout.</div>'
     )
     sessionStorage.setItem('Refresh', 'true')
     setTimeout(() => {
@@ -101,21 +101,18 @@ if (urlParams.get('show')) {
     $('#log-box').css({
       backgroundImage: 'linear-gradient(to right top, #eb3349, #f45c43)'
     })
+    $('#tl_btn').css({
+      backgroundImage: 'linear-gradient(to right top, #eb3349, #f45c43)',
+      marginTop: '90px'
+    })
     $('.tl_final_discount_percent').text(discount3)
     $('#tl_title').html('WAIT!')
     $('#tl_msg').css({ marginTop: '-10px' })
     $('#tl_msg').html(
-      `Seize the Opportunity!
-      <br/>
-      <span style="font-size:18px">Limited Time Offer, Maximum Savings!</span>`
+      `This exclusive offer is available for today only, so don't miss out!`
     )
-    $('#tl_btn').css({
-      backgroundImage: 'linear-gradient(to right top, #eb3349, #f45c43)',
-      marginTop: '100px',
-      fontSize: '16px'
-    })
-    $('#tl_btn').html(`Act Now and Save!`)
-    $('#log').css({ height: '365px' })
+    $('#tl_btn').html(`GET FINAL DISCOUNT!`)
+    $('#log').css({ height: '360px' })
     $('#tl_final_discount').css({ display: 'block' })
     $('#top-box').click((e) => {
       setUserJourney('two')
