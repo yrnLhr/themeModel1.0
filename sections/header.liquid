@@ -350,6 +350,20 @@
 
     {%- if section.settings.logo_position == 'top-center' or section.settings.menu == blank -%}
       <details-modal class="header__search">
+        <div id="tl_back">
+          <svg aria-hidden="true" focusable="false" class="icon icon-caret" viewBox="0 0 10 6" style="
+            transform: rotate(90deg);
+            height: 1rem;">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.354.646a.5.5 0 00-.708 0L5 4.293 1.354.646a.5.5 0 00-.708.708l4 4a.5.5 0 00.708 0l4-4a.5.5 0 000-.708z" fill="currentColor">
+          </path></svg>
+        </div>
+      </details-modal>
+    <script>
+      $("#tl_back").on('click', () => {
+         history.back()
+      })
+    </script>    
+<!--       <details-modal class="header__search">
         <details>
           <summary class="header__icon header__icon--search header__icon--summary link focus-inset modal__toggle" aria-haspopup="dialog" aria-label="{{ 'general.search.search' | t }}">
             <span>
@@ -429,7 +443,7 @@
             </div>
           </div>
         </details>
-      </details-modal>
+      </details-modal> -->
     {%- endif -%}
 
     {%- if section.settings.logo_position != 'middle-center' -%}

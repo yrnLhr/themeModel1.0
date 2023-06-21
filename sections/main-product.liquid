@@ -201,21 +201,19 @@
             <!-- 五星好评 -->
             <div style="height: 20px;
               display: flex;
-              margin: -1rem 0;
+              margin: -1.5rem 0 0 0;
               align-items: center;">
-              <img style="height: 20px" src="{{ 'star.svg' | asset_url }}" />
-              <img style="height: 20px" src="{{ 'star.svg' | asset_url }}" />
-              <img style="height: 20px" src="{{ 'star.svg' | asset_url }}" />
-              <img style="height: 20px" src="{{ 'star.svg' | asset_url }}" />
-              <img style="height: 20px" src="{{ 'star.svg' | asset_url }}" />
+              <img height="20" width="20" src="{{ 'star.svg' | asset_url }}" loading="lazy"/>
+              <img height="20" width="20" src="{{ 'star.svg' | asset_url }}" loading="lazy"/>
+              <img height="20" width="20" src="{{ 'star.svg' | asset_url }}" loading="lazy"/>
+              <img height="20" width="20" src="{{ 'star.svg' | asset_url }}" loading="lazy"/>
+              <img height="20" width="20" src="{{ 'star.svg' | asset_url }}" loading="lazy"/>
               <span style="margin: 10px">(<span id="tl_five_star_num"></span>)</span>
             </div>
             <script>
-              // 设置倒计时时间（以毫秒为单位）
               const five_star_num1 =  Number({{ block.settings.five_star_num1 }})
               const five_star_num2 = Number({{ block.settings.five_star_num2 }})
               var tl_five_star_num = Math.ceil(Math.random() * (five_star_num2 - five_star_num1) + five_star_num1)
-        
               document.getElementById('tl_five_star_num').innerText = tl_five_star_num.toLocaleString('en-US');
             </script>
             
@@ -290,7 +288,7 @@
                   document.write(random_number);
                 </script>
                 {% endraw %}
-                        Personal Recommendations</span
+                        Personal recommendations</span
                       >
                     </div>
                     <div
@@ -318,7 +316,7 @@
                   document.write(random_number);
                 </script>
                 {% endraw %}
-                        People Are Browsing</span
+                        People are browsing</span
                       >
                     </div>
             </div>
@@ -363,14 +361,14 @@
                 -%}
               </div>
               {%- if shop.taxes_included or shop.shipping_policy.body != blank -%}
-                <div class="product__tax caption rte">
+                {% comment %} <div class="product__tax caption rte">
                   {%- if shop.taxes_included -%}
                     {{ 'products.product.include_taxes' | t }}
                   {%- endif -%}
                   {%- if shop.shipping_policy.body != blank -%}
                     {{ 'products.product.shipping_policy_html' | t: link: shop.shipping_policy.url }}
                   {%- endif -%}
-                </div>
+                </div> {% endcomment %}
               {%- endif -%}
               <div {{ block.shopify_attributes }}>
                 {%- assign product_form_installment_id = 'product-form-installment-' | append: section.id -%}
@@ -520,6 +518,30 @@
                     {% render 'icon-plus' %}
                   </button>
                 </quantity-input>
+            
+                <div style="
+                  font-size: 14px;
+                  margin-top: 0.5rem;
+                  display: flex;
+                  align-items: center;
+                  margin-bottom: -1.5rem;
+                }">
+                  <div style="
+                      display: inline-block;
+                      height: 16px;
+                      width: 16px;
+                      margin-right: 5px;
+                      margin-top: -4px;
+                  "><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="16px" width="16px" xmlns="http://www.w3.org/2000/svg"><path fill="none" d="M0 0h24v24H0z"></path><path d="M20 2H4c-1 0-2 .9-2 2v3.01c0 .72.43 1.34 1 1.69V20c0 1.1 1.1 2 2 2h14c.9 0 2-.9 2-2V8.7c.57-.35 1-.97 1-1.69V4c0-1.1-1-2-2-2zm-1 18H5V9h14v11zm1-13H4V4h16v3z"></path><path d="M9 12h6v2H9z"></path></svg></div>
+                  <span><span style="color: orange">Hurry! Only <span id="tl_j_random_number2"></span> left </span><span>and it's in </span><span id="tl_j_random_number1"></span> people's carts</span>
+                </div>
+                <script>
+                  var tl_j_random_number1 =  Math.ceil(Math.random() * 10 + 5);
+                  var tl_j_random_number2 =  Math.ceil(Math.random() * 5 + 15);
+                  $("#tl_j_random_number1").text(tl_j_random_number1)
+                  $("#tl_j_random_number2").text(tl_j_random_number2)
+                </script>
+            
                 <div class="quantity__rules caption no-js-hidden">
                   {%- if product.selected_or_first_available_variant.quantity_rule.increment > 1 -%}
                     <span class="divider">
@@ -657,7 +679,7 @@
                           {%- endfor -%}
                         </div>
                         {%- if number_of_slides > 1 -%}
-                          <div class="slider-buttons no-js-hidden">
+<!--                           <div class="slider-buttons no-js-hidden">
                             <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="{{ 'general.slider.previous_slide' | t }}">{% render 'icon-caret' %}</button>
                             <div class="slider-counter slider-counter--{{ block.settings.pagination_style }}{% if block.settings.pagination_style == 'counter' or block.settings.pagination_style == 'numbers' %} caption{% endif %}">
                               {%- if block.settings.pagination_style == 'counter' -%}
@@ -676,7 +698,7 @@
                               {%- endif -%}
                             </div>
                             <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'general.slider.next_slide' | t }}">{% render 'icon-caret' %}</button>
-                          </div>
+                          </div> -->
                         {%- endif -%}
                       </slideshow-component>
                       {%- if block.settings.make_collapsible_row -%}

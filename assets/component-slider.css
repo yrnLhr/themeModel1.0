@@ -56,8 +56,8 @@ slider-component.slider-component-full-width {
 
   .slider.slider--mobile .slider__slide {
     margin-bottom: 0;
-    padding-top: max(var(--focus-outline-padding), var(--shadow-padding-top));
-    padding-bottom: max(var(--focus-outline-padding), var(--shadow-padding-bottom));
+/*     padding-top: max(var(--focus-outline-padding), var(--shadow-padding-top));
+    padding-bottom: max(var(--focus-outline-padding), var(--shadow-padding-bottom)); */
     width: 100%;
     height: calc(100vw * 0.75);
   }
@@ -327,6 +327,7 @@ slider-component.slider-component-full-width {
 
 .slider-buttons {
   display: flex;
+  margin-top: -1.5rem;
   align-items: center;
   justify-content: center;
 }
