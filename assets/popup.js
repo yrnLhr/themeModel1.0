@@ -169,7 +169,7 @@ if (urlParams.get('show')) {
     $('#tl_final_discount').css({ display: 'block' })
 
     if (tlPopupLevel == '0') {
-      function skip() {
+      const skip = () => {
         $('#top-box').fadeOut('fast')
         // 展示领取成功
         window.location = `${_url}/discount/${code3}?${window.location.search.replace(
@@ -208,8 +208,9 @@ if (urlParams.get('show')) {
     }
 
     if (tlPopupLevel == '0') {
-      function skip() {
+      const skip = () => {
         $('#top-box').fadeOut('fast')
+
         // 展示领取成功
         window.location = `${_url}/discount/${code2}?${window.location.search.replace(
           '?',
