@@ -7,12 +7,11 @@ console.log(thisProductMsg)
 const urlParams = new URLSearchParams(window.location.search)
 
 // 显示页面刷新
-window.addEventListener('pageshow', function () {
-  if (sessionStorage.getItem('Refresh') == 'true' && urlParams.get('code1')) {
+window.addEventListener('pageshow', function (e) {
+  if(e.persisted){
     window.location.reload()
   }
 })
-sessionStorage.setItem('Refresh', 'false')
 
 // 监听表单提交事件
 setTimeout(() => {
@@ -39,6 +38,7 @@ const overflowHidden = (type) => {
 if (urlParams.get('show')) {
   // 获取geturl参数
   // 初始化参数
+  const template = urlParams.get('template') || 'code001'
   const code1 = urlParams.get('code1') || 'code001'
   const discount1 = urlParams.get('discount1') || 5
   const code2 = urlParams.get('code2') || 'code002'
@@ -66,13 +66,18 @@ if (urlParams.get('show')) {
     setTimeout(() => {
       $('#top-box').css({ display: 'none' })
     }, 1000)
-    window.location = `${_url}/discount/${code1}?show=1&redirect=/products/${productName}`
-    sessionStorage.setItem('Refresh', 'true')
+    window.location = `${_url}/discount/${code1}?${window.location.search.replace('?', '')}&redirect=/products/${productName}`
     setUserJourney('first')
   })
 
   // 写上第一次的参数
-  $('.tl_discount_percent').text(discount1)
+  if(template == 'discount'){
+    $('.tl_discount_percent').text('SAVE $' + discount1)
+    $('.tl_discount_percent2').text('Enjoy $' + discount1 + ' in Savings!')
+  } else if(template == 'discount2') {
+    $('.tl_discount_percent').text(discount1 + '% OFF!')
+    $('.tl_discount_percent2').text('Enjoy ' + discount1 + '% OFF!')
+  }
 
   // 第一次进来
   if (userJourney.length === 0 && urlParams.get('show')) {
@@ -83,13 +88,12 @@ if (urlParams.get('show')) {
   }
 
   // 设置逻辑
-  // 第一次
+  // 领取成功
   if (userJourney[0] === 'first') {
     $('#tip').css({ display: 'block' })
     $('#msg').append(
       '<div style="font-size: 15px;"> Automatically Applied at Checkout!</div>'
     )
-    sessionStorage.setItem('Refresh', 'true')
     setTimeout(() => {
       $('#tip').css({ display: 'none' })
       overflowHidden(false)
@@ -101,7 +105,11 @@ if (urlParams.get('show')) {
     $('#log-box').css({
       backgroundImage: 'linear-gradient(to right top, #eb3349, #f45c43)'
     })
-    $('.tl_final_discount_percent').text(discount3)
+    if(template == 'discount'){
+      $('.tl_final_discount_percent').text('SAVE $' + discount3)
+    } else if(template == 'discount2') {
+      $('.tl_final_discount_percent').text(discount3 + '% OFF!')
+    }
     $('#tl_title').html('WAIT!')
     $('#tl_msg').css({ marginTop: '-10px' })
     $('#tl_msg').html(
@@ -120,7 +128,6 @@ if (urlParams.get('show')) {
     $('#top-box').click((e) => {
       setUserJourney('two')
       window.location = `${_url}/cart/${productId}:1?discount=${code3}`
-      sessionStorage.setItem('Refresh', 'true')
     })
   }
   // 第二次
@@ -132,11 +139,17 @@ if (urlParams.get('show')) {
     $('#tl_btn').css({
       backgroundImage: 'linear-gradient(to right top, #fdc830, #f37735)'
     })
-    $('.tl_discount_percent').text(discount2)
+    if(template == 'discount'){
+      $('.tl_discount_percent').text('SAVE $' + discount2)
+      $('.tl_discount_percent2').text('Enjoy $' + discount2 + ' in Savings!')
+    } else if(template == 'discount2') {
+      $('.tl_discount_percent').text(discount2 + '% OFF!')
+      $('.tl_discount_percent2').text('Enjoy ' + discount2 + '% OFF!')
+    }
+    
     $('#top-box').click((e) => {
       setUserJourney('two')
       window.location = `${_url}/cart/${productId}:1?discount=${code2}`
-      sessionStorage.setItem('Refresh', 'true')
     })
   }
 
