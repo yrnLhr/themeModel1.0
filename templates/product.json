@@ -11,6 +11,11 @@
             "text_style": "uppercase"
           }
         },
+        "83139772-31e8-4428-afec-00c63329b719": {
+          "type": "tl_go_buy",
+          "settings": {
+          }
+        },
         "title": {
           "type": "title",
           "settings": {
@@ -100,15 +105,11 @@
             "content": "",
             "page": "faqs"
           }
-        },
-        "83139772-31e8-4428-afec-00c63329b719": {
-          "type": "tl_go_buy",
-          "settings": {
-          }
         }
       },
       "block_order": [
         "vendor",
+        "83139772-31e8-4428-afec-00c63329b719",
         "title",
         "price",
         "7089e538-67d9-482f-b6e9-a465a9afb8fe",
@@ -121,8 +122,7 @@
         "52c94457-11a9-48ac-af9d-cc5020dfb5dd",
         "3b650000-85ab-4771-8d80-56ab6975df9a",
         "b526ce4e-791c-478a-98c0-902271d8272f",
-        "bb374d99-f32c-43c2-a0e5-a11cf165bb46",
-        "83139772-31e8-4428-afec-00c63329b719"
+        "bb374d99-f32c-43c2-a0e5-a11cf165bb46"
       ],
       "settings": {
         "enable_sticky_info": true,
