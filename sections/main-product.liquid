@@ -232,7 +232,7 @@
               document.getElementById('tl_subheading').innerText = tl_subheading_contents
             </script>
             
-            {%- when 'tl_subheading' -%}
+            {%- when 'tl_go_buy' -%}
             <!-- 去购买锚点 -->
             {% comment %} 跳转到顶部 {% endcomment %}
             <div id="tl_go_buy" style="height: 50px;
@@ -241,7 +241,7 @@
               text-align: center;
               font-size: 20px;
               position: fixed;
-<!--               display: none; -->
+              display: none;
               z-index: 999;
               bottom: 40px;
               background: #ff7e5f;
@@ -251,9 +251,8 @@
               margin: 0 15%;
               border-radius: 25px;">GO BUY!</div>
             <script>
-              // $(function(){
+              $(function(){
                 let aaaa= true;
-                console.log('2312323')
                 $("#tl_go_buy").fadeOut();
                 $(window).scroll(function() {
                   var t
@@ -280,7 +279,7 @@
                 $("#tl_go_buy").click(() => {
                   $(window).scrollTop($('.product-form__buttons').offset().top - 500)
                 })
-              // });
+              });
             </script>
             
             {%- when 'tl_see_data' -%}
