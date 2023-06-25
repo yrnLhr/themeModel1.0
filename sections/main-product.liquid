@@ -252,7 +252,7 @@
               border-radius: 25px;">GO BUY!</div>
             <script>
               $(function(){
-                let aaaa= true;
+                let goBuyShow= true;
                 $("#tl_go_buy").fadeOut();
                 $(window).scroll(function() {
                   var t
@@ -263,16 +263,16 @@
                   }
                   {% comment %} 看不到了 {% endcomment %}
                   if(t > $('.product-form__buttons').height() + $('.product-form__buttons').offset().top - 64){
-                    if(aaaa){
+                    if(goBuyShow){
                       $("#tl_go_buy").fadeIn();
-                      aaaa = false
+                      goBuyShow = false
                     }
                   }
                   {% comment %} 看得到 {% endcomment %}
                   if(t < $('.product-form__buttons').height() + $('.product-form__buttons').offset().top - 64){
-                    if(!aaaa){
+                    if(!goBuyShow){
                       $("#tl_go_buy").fadeOut();
-                      aaaa = true
+                      goBuyShow = true
                     }
                   }
                 });
