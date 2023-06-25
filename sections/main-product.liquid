@@ -855,6 +855,53 @@
   </script>
 </section>
 
+{% comment %} 跳转到顶部 {% endcomment %}
+<div id="tl_go_buy" style="height: 50px;
+  width: 70%;
+  line-height: 50px;
+  text-align: center;
+  font-size: 20px;
+  position: fixed;
+  z-index: 999;
+  bottom: 40px;
+  background: #ff7e5f;
+  background: -webkit-linear-gradient(to right, #feb47b, #ff7e5f);
+  background: linear-gradient(to right, #feb47b, #ff7e5f);
+  color: white;
+  margin: 0 15%;
+  border-radius: 25px;">GO BUY!</div>
+<script>
+  $(function(){
+    let aaaa= true;
+    $("#tl_go_buy").fadeOut();
+    $(window).scroll(function() {
+      var t
+      if(document.documentElement && document.documentElement.scrollTop) {
+        t = document.documentElement.scrollTop;
+      } else if(document.body) {
+        t = document.body.scrollTop;
+      }
+      {% comment %} 看不到了 {% endcomment %}
+      if(t > $('.product-form__buttons').height() + $('.product-form__buttons').offset().top - 64){
+        if(aaaa){
+          $("#tl_go_buy").fadeIn();
+          aaaa = false
+        }
+      }
+      {% comment %} 看得到 {% endcomment %}
+      if(t < $('.product-form__buttons').height() + $('.product-form__buttons').offset().top - 64){
+        if(!aaaa){
+          $("#tl_go_buy").fadeOut();
+          aaaa = true
+        }
+      }
+    });
+    $("#tl_go_buy").click(() => {
+      $(window).scrollTop($('.product-form__buttons').offset().top - 500)
+    })
+  });
+</script>
+
 {% schema %}
 {
   "name": "t:sections.main-product.name",
