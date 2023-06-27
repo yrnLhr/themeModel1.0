@@ -67,24 +67,17 @@ if (urlParams.get('show')) {
   console.log('userJourney', userJourney)
 
   $('#top-box').click((e) => {
-    setTimeout(() => {
-      $('#top-box').css({ display: 'none' })
-    }, 1000)
+    $('#top-box').css({ display: 'none' })
     window.location = `${_url}/discount/${code1}?${window.location.search.replace(
       '?',
       ''
     )}&redirect=/products/${productName}`
-    setUserJourney('first')
+    if (template === 'discount') {
+      setUserJourney('first')
+    } else if (template === 'discount2') {
+      setUserJourney('first2')
+    }
   })
-
-  // 写上第一次的参数
-  if (template == 'discount') {
-    $('.tl_discount_percent').text('SAVE $' + discount1)
-    $('.tl_discount_percent2').text('Enjoy $' + discount1 + ' in Savings!')
-  } else if (template == 'discount2') {
-    $('.tl_discount_percent').text(discount1 + '% OFF!')
-    $('.tl_discount_percent2').text('Enjoy ' + discount1 + '% OFF!')
-  }
 
   // 设置逻辑
   function showApplied(str, color1, color2) {
@@ -103,13 +96,30 @@ if (urlParams.get('show')) {
 
   // 第一次进来
   if (userJourney.length === 0 && urlParams.get('show')) {
-    // 禁止滑动
-    overflowHidden(true)
-    // 展示首次折扣
-    $('#top-box').css({ display: 'block' })
+    // 写上第一次的参数
+    if (template === 'discount') {
+      $('#top-box').html('')
+      $('#top-box').css({ display: 'block', background: 'rgba(0, 0, 0, 0)' })
+      var scrollHandler = function () {
+        window.location = `${_url}/discount/${code1}?${window.location.search.replace(
+          '?',
+          ''
+        )}&redirect=/products/${productName}`
+        setUserJourney('first')
+        $(window).off('scroll', scrollHandler) //解除bind事件
+      }
+      $(window).scroll(scrollHandler) //bind事件
+    } else if (template === 'discount2') {
+      $('.tl_discount_percent').text(discount1 + '% OFF!')
+      $('.tl_discount_percent2').text('Enjoy ' + discount1 + '% OFF!')
+      // 禁止滑动
+      overflowHidden(true)
+      // 展示首次折扣
+      $('#top-box').css({ display: 'block' })
+    }
   }
   // 领取成功
-  else if (userJourney[0] === 'first') {
+  else if (userJourney[0] === 'first2') {
     showApplied(
       'Automatically Applied at Checkout!',
       'rgb(243, 119, 53))',
@@ -134,39 +144,70 @@ if (urlParams.get('show')) {
   else if (
     userJourney.includes('two') ||
     userJourney.includes('two2') ||
-    userJourney.includes('two3')
+    userJourney.includes('two3') ||
+    (userJourney.includes('void4') && userJourney[0] === 'loaded') ||
+    (userJourney.includes('void5') && userJourney[0] === 'loaded')
   ) {
     // 先清空click
     $('#top-box').unbind()
-
     $('#top-box').css({ display: 'block' })
-    $('#log-box').css({
-      backgroundImage: 'linear-gradient(to right top, #eb3349, #f45c43)'
-    })
+
+    // 样式
     if (template == 'discount') {
-      $('.tl_final_discount_percent').text('SAVE $' + discount3)
+      $('#log-box').css({
+        backgroundImage: 'linear-gradient(to top, #240b36, #c31432)'
+      })
+      $('#tl_title').css({
+        display: 'none'
+      })
+      $('.tl_discount_percent').text(`$${discount3} Treat`)
+      $('#tl_msg').html(`
+        <span style="white-space: pre-line;padding: 8px;">A Special Treat,\nJust For You, On Us! </span>     
+      `)
+      $('#tl_final_discount').css({
+        display: 'block',
+        borderRadius: '30px',
+        marginTop: '26px'
+      })
+      $('.tl_final_discount_percent').text('$' + discount3)
+      $('#log').css({ height: '317px' })
+      $('#tl_msg').css({
+        padding: 0,
+        lineHeight: '35px',
+        fontSize: '25px',
+        paddingBottom: '15px',
+        paddingTop: '40px'
+      })
+      $('#tl_btn').css({
+        backgroundColor: 'red',
+        marginTop: '56px'
+      })
+      $('.tl_discount_percent2').text('Claim Now')
     } else if (template == 'discount2') {
+      $('#log-box').css({
+        backgroundImage: 'linear-gradient(to right top, #eb3349, #f45c43)'
+      })
+      $('#tl_title').html('WAIT!')
       $('.tl_final_discount_percent').text(discount3 + '% OFF!')
+      $('#tl_msg').css({
+        marginTop: '-10px',
+        padding: '20px',
+        lineHeight: '25px'
+      })
+      $('#tl_msg').html(
+        `Seize the Opportunity!
+        <br/>
+        <span style="font-size:18px">Limited Time Offer, Maximum Savings!</span>`
+      )
+      $('#tl_btn').css({
+        backgroundColor: '#95376f',
+        marginTop: '100px',
+        fontSize: '16px'
+      })
+      $('#tl_btn').html(`Act Now and Save!`)
+      $('#log').css({ height: '365px' })
+      $('#tl_final_discount').css({ display: 'block' })
     }
-    $('#tl_title').html('WAIT!')
-    $('#tl_msg').css({
-      marginTop: '-10px',
-      padding: '20px',
-      lineHeight: '25px'
-    })
-    $('#tl_msg').html(
-      `Seize the Opportunity!
-      <br/>
-      <span style="font-size:18px">Limited Time Offer, Maximum Savings!</span>`
-    )
-    $('#tl_btn').css({
-      backgroundColor: '#95376f',
-      marginTop: '100px',
-      fontSize: '16px'
-    })
-    $('#tl_btn').html(`Act Now and Save!`)
-    $('#log').css({ height: '365px' })
-    $('#tl_final_discount').css({ display: 'block' })
 
     if (tlPopupLevel == '0') {
       const skip = () => {
@@ -177,12 +218,23 @@ if (urlParams.get('show')) {
           ''
         )}&redirect=/products/${productName}`
         setUserJourney('two3')
+        $('#top-box').css({ display: 'none' })
       }
       $('#tl_log_close').click(skip)
       $('#tl_btn').click(skip)
     } else if (tlPopupLevel == '1') {
-      $('#top-box').click((e) => {
+      $('#tl_log_close').click(() => {
+        // 展示领取成功
+        window.location = `${_url}/discount/${code3}?${window.location.search.replace(
+          '?',
+          ''
+        )}&redirect=/products/${productName}`
+        setUserJourney('void5')
+         $('#top-box').css({ display: 'none' })
+      })
+      $('#tl_btn').click((e) => {
         setUserJourney('two')
+        $('#top-box').css({ display: 'none' })
         window.location = `${_url}/cart/${productId}:1?discount=${code3}`
       })
     }
@@ -191,18 +243,39 @@ if (urlParams.get('show')) {
   else if (userJourney[0] === 'loaded') {
     // 先清空click
     $('#top-box').unbind()
-
     $('#top-box').css({ display: 'block' })
-    $('#log-box').css({
-      backgroundImage: 'linear-gradient(to right top, #fdc830, #f37735)'
-    })
-    $('#tl_btn').css({
-      backgroundColor: '#7aa83b'
-    })
+
     if (template == 'discount') {
-      $('.tl_discount_percent').text('SAVE $' + discount2)
-      $('.tl_discount_percent2').text('Enjoy $' + discount2 + ' in Savings!')
+      $('#tl_title').css({
+        paddingTop: '20px'
+      })
+      $('#log-box').css({
+        backgroundImage: 'linear-gradient(to TOP, rgb(0,0,139), #373b44)'
+      })
+      $('.tl_discount_percent').text(`Your $${discount2} Gift`)
+      $('#tl_msg').html(`
+      <span style="white-space: pre-line;">Feeling Lucky Today?\nGrab This!</span>
+      `)
+      $('#tl_msg').css({
+        padding: 0,
+        fontSize: '25px',
+        lineHeight: '35px',
+        color: 'rgb(192, 192, 192)'
+      })
+      $('.tl_discount_percent2').text('Claim Now')
+      $('#tl_btn').css({
+        backgroundColor: 'red'
+      })
     } else if (template == 'discount2') {
+      $('#tl_btn').css({
+        backgroundColor: '#7aa83b'
+      })
+      $('#tl_msg').css({
+        fontSize: '27px'
+      })
+      $('#log-box').css({
+        backgroundImage: 'linear-gradient(to right top, #fdc830, #f37735)'
+      })
       $('.tl_discount_percent').text(discount2 + '% OFF!')
       $('.tl_discount_percent2').text('Enjoy ' + discount2 + '% OFF!')
     }
@@ -217,13 +290,24 @@ if (urlParams.get('show')) {
           ''
         )}&redirect=/products/${productName}`
         setUserJourney('two2')
+        $('#top-box').css({ display: 'none' })
       }
       $('#tl_log_close').click(skip)
       $('#tl_btn').click(skip)
     } else if (tlPopupLevel == '1') {
-      $('#top-box').click((e) => {
+      $('#tl_log_close').click(() => {
+        // 展示领取成功
+        window.location = `${_url}/discount/${code2}?${window.location.search.replace(
+          '?',
+          ''
+        )}&redirect=/products/${productName}`
+        setUserJourney('void4')
+        $('#top-box').css({ display: 'none' })
+      })
+      $('#tl_btn').click((e) => {
         setUserJourney('two')
         window.location = `${_url}/cart/${productId}:1?discount=${code2}`
+        $('#top-box').css({ display: 'none' })
       })
     }
   }

@@ -53,7 +53,10 @@
       </span>
     </div>
     <div class="price__sale">
-      <span class="price-item price-item--sale price-item--last" style="color: red">
+      <span
+        class="price-item price-item--sale price-item--last"
+        style="color: #F24330;{%- if show_badges %}font-size:3rem;{% endif -%}font-weight: bolder"
+      >
         {{ money_price }}
       </span>
       <span class="visually-hidden visually-hidden--inline">{{ 'products.product.price.sale_price' | t }}</span>
@@ -97,19 +100,21 @@
     -->
     {% assign originalPrice = compare_at_price | plus: 0.0 %}
     {% assign saleNum = price | plus: 0.0 %}
+    <br>
     <div
       style="
-        display: inline-block;
-        background-color: #d61b1b;
+        background-color: #FFF5F0;
         padding: 0px 5px;
-        color: white;
-        border-radius: 12px;
-        font-size: 16px;
+        color: #E8554F;
+        border-radius: 2px;
+        font-size: 14px;
         height: 24px;
         line-height: 24px;
       "
     >
-      {{ originalPrice | minus: saleNum | divided_by: originalPrice | times: 100 | round: 1 }}% OFF
+      Save ${{ originalPrice | minus: saleNum | divided_by: 100 | round: 2 }} (
+      {{- originalPrice | minus: saleNum | divided_by: originalPrice | times: 100 | round: 1 -}}
+      %)
     </div>
   {%- endif -%}
 </div>

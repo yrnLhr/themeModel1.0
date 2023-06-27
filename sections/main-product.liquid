@@ -201,7 +201,7 @@
             <!-- 五星好评 -->
             <div style="height: 20px;
               display: flex;
-              margin: -1.5rem 0 0 0;
+              margin: -0.5rem 0 0 0;
               align-items: center;">
               <img height="20" width="20" src="{{ 'star.svg' | asset_url }}" loading="lazy"/>
               <img height="20" width="20" src="{{ 'star.svg' | asset_url }}" loading="lazy"/>
@@ -231,7 +231,7 @@
               });
               document.getElementById('tl_subheading').innerText = tl_subheading_contents
             </script>
-            
+
             {%- when 'tl_go_buy' -%}
             <!-- 去购买锚点 -->
             {% comment %} 跳转到顶部 {% endcomment %}
@@ -253,32 +253,35 @@
             <script>
               $(function(){
                 let goBuyShow = true;
-                $("#tl_go_buy").fadeOut();
-                $(window).scroll(function() {
-                  var t
-                  if(document.documentElement && document.documentElement.scrollTop) {
-                    t = document.documentElement.scrollTop;
-                  } else if(document.body) {
-                    t = document.body.scrollTop;
-                  }
-                  {% comment %} 看不到了 {% endcomment %}
-                  if(t > $('.product-form__buttons').height() + $('.product-form__buttons').offset().top - 64){
-                    if(goBuyShow){
-                      $("#tl_go_buy").fadeIn();
-                      goBuyShow = false
+                console.log(window.screen.width)
+                if (window.screen.width < 500) {
+                  // 当前设备是移动设备 
+                  $(window).scroll(function() {
+                    var t
+                    if(document.documentElement && document.documentElement.scrollTop) {
+                      t = document.documentElement.scrollTop;
+                    } else if(document.body) {
+                      t = document.body.scrollTop;
                     }
-                  }
-                  {% comment %} 看得到 {% endcomment %}
-                  if(t < $('.product-form__buttons').height() + $('.product-form__buttons').offset().top - 64){
-                    if(!goBuyShow){
-                      $("#tl_go_buy").fadeOut();
-                      goBuyShow = true
+                    {% comment %} 看不到了 {% endcomment %}
+                    if(t > $('.product-form__buttons').height() + $('.product-form__buttons').offset().top - 64){
+                      if(goBuyShow){
+                        $("#tl_go_buy").fadeIn();
+                        goBuyShow = false
+                      }
                     }
-                  }
-                });
-                $("#tl_go_buy").click(() => {
-                  $(window).scrollTop($('.product-form__buttons').offset().top - 500)
-                })
+                    {% comment %} 看得到 {% endcomment %}
+                    if(t < $('.product-form__buttons').height() + $('.product-form__buttons').offset().top - 64){
+                      if(!goBuyShow){
+                        $("#tl_go_buy").fadeOut();
+                        goBuyShow = true
+                      }
+                    }
+                  });
+                  $("#tl_go_buy").click(() => {
+                    $(window).scrollTop($('.product-form__buttons').offset().top - 500)
+                  })
+                }
               });
             </script>
             
