@@ -140,3 +140,26 @@
   const thisProductMsg = {{ product | json}}
 </script>
 <script src="{{ 'popup.js' | asset_url }}"></script>
+
+{% comment %} loading 组件 {% endcomment %}
+<div
+  id="tl_loading"
+  style="
+    opacity: 1;
+    display: none;
+    z-index: 9999999;
+    padding: 2rem;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    color: orange;
+    font-size: 30px;
+    left: 0;
+    right: 0;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.2);
+  "
+>
+  loading...
+</div>
