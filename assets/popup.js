@@ -6,6 +6,16 @@ console.log(thisProductMsg)
 
 const urlParams = new URLSearchParams(window.location.search)
 
+// 展示loading
+const showLoading = (show) => {
+  if (show) {
+    $('#tl_loading').css({ display: 'flex' })
+  } else {
+    $('#tl_loading').css({ display: 'none' })
+  }
+}
+showLoading(false)
+
 // 显示页面刷新
 window.addEventListener('pageshow', function (e) {
   if (e.persisted) {
@@ -139,14 +149,14 @@ if (urlParams.get('show')) {
       'rgb(235, 51, 73)',
       'rgb(244, 92, 67)'
     )
+  } else if (userJourney[0] === 'void') {
   }
   // 第三次
   else if (
     userJourney.includes('two') ||
     userJourney.includes('two2') ||
     userJourney.includes('two3') ||
-    (userJourney.includes('void4') && userJourney[0] === 'loaded') ||
-    (userJourney.includes('void5') && userJourney[0] === 'loaded')
+    (userJourney.includes('void') && userJourney[0] === 'loaded')
   ) {
     // 先清空click
     $('#top-box').unbind()
@@ -229,11 +239,12 @@ if (urlParams.get('show')) {
           '?',
           ''
         )}&redirect=/products/${productName}`
-        setUserJourney('void5')
-         $('#top-box').css({ display: 'none' })
+        setUserJourney('void')
+        $('#top-box').css({ display: 'none' })
+        showLoading(true)
       })
       $('#tl_btn').click((e) => {
-        setUserJourney('two')
+        showLoading(true)
         $('#top-box').css({ display: 'none' })
         window.location = `${_url}/cart/${productId}:1?discount=${code3}`
       })
@@ -296,15 +307,15 @@ if (urlParams.get('show')) {
       $('#tl_btn').click(skip)
     } else if (tlPopupLevel == '1') {
       $('#tl_log_close').click(() => {
-        // 展示领取成功
-        window.location = `${_url}/discount/${code2}?${window.location.search.replace(
+        window.location = `${_url}/discount/0?${window.location.search.replace(
           '?',
           ''
         )}&redirect=/products/${productName}`
-        setUserJourney('void4')
+        setUserJourney('void')
         $('#top-box').css({ display: 'none' })
       })
       $('#tl_btn').click((e) => {
+        showLoading(true)
         setUserJourney('two')
         window.location = `${_url}/cart/${productId}:1?discount=${code2}`
         $('#top-box').css({ display: 'none' })
