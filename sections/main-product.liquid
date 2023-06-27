@@ -1,5 +1,13 @@
 {% render 'test002' %}
 
+<script>
+  window.addEventListener('load', function() {
+    // 页面所有资源（包括图像、样式表、脚本等）加载完成后的操作
+    const lazyImages = document.querySelectorAll('.product__media-list img');
+    lazyImages.forEach((img) => {img.removeAttribute('loading')});
+  });
+</script>
+
 <section
   id="MainProduct-{{ section.id }}"
   class="page-width section-{{ section.id }}-padding"
