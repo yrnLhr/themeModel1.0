@@ -1,4 +1,4 @@
-<style>
+{% stylesheet %}
   .loading {
     margin: 20px;
     position: relative;
@@ -46,7 +46,7 @@
       transform: rotate(360deg) scale(1);
     }
   }
-</style>
+{% endstylesheet %}
 
 <div
   id="top-box"
@@ -84,7 +84,7 @@
       style="height: 185px;color:white;background-image: linear-gradient(to right top, #4094dd, #68e3de);"
     >
       <div
-        id="tl_log_close"
+        class="tl-close"
         style="
           position: absolute;
           right: 5px;
@@ -108,13 +108,13 @@
           <path stroke="#FFF" stroke-width="2" d="M3,3 L21,21 M3,21 L21,3"></path>
         </svg>
       </div>
-      <div style="font-size:40px" id="tl_title"><span class="tl_discount_percent"></span></div>
-      <div style="padding: 10px;padding-top:0;font-size:20px" id="tl_msg">
+      <div style="font-size:40px" id="tl-title"><span class="tl-discount-percent"></span></div>
+      <div style="padding: 10px;padding-top:0;font-size:20px" id="tl-msg">
         Don't Miss Out <br>
-        <span class="tl_discount_percent"></span> Today!
+        <span class="tl-discount-percent"></span> Today!
       </div>
       <div
-        id="tl_final_discount"
+        id="tl-final-discount"
         style="
           display: none;
           color: black;
@@ -130,11 +130,11 @@
           line-height: 55px;
         "
       >
-        <span class="tl_final_discount_percent"></span>
+        <span class="tl-final-discount-percent"></span>
       </div>
     </div>
     <div
-      id="tl_btn"
+      id="tl-btn"
       style="
         width: 250px;
         margin: 0 auto;
@@ -146,7 +146,7 @@
         color: white;
       "
     >
-      <span class="tl_discount_percent2"></span>
+      <span class="tl-discount-percent2"></span>
     </div>
   </div>
 </div>
@@ -186,14 +186,9 @@
   </div>
 </div>
 
-<script>
-  const thisProductMsg = {{ product | json}}
-</script>
-<script src="{{ 'popup.js' | asset_url }}"></script>
-
 {% comment %} loading 组件 {% endcomment %}
 <div
-  id="tl_loading"
+  id="tl-loading"
   style="
     opacity: 1;
     display: none;
@@ -213,3 +208,69 @@
 >
   <div class="loading"></div>
 </div>
+
+{% comment %} 垂直居中组件 {% endcomment %}
+<div
+  id="tl-off-box"
+  style="
+    opacity: 1;
+    display: none;
+    z-index: 9999999;
+    padding: 2rem;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    font-size: 30px;
+    left: 0;
+    right: 0;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.2);
+  "
+>
+  <div
+    style="
+      background-color: white;
+      border-radius: 5px;
+      border: 5px solid #eee;
+      text-align: center;
+      line-height: normal;
+      position: relative;
+      width: 285px;
+      padding: 30px 20px;
+    "
+  >
+    <div
+      class="tl-close"
+      style="
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        line-height: 30px;
+        width: 30px;
+        height: 30px;
+        border-radius: 4px;
+      "
+    >
+      <svg
+        stroke="currentColor"
+        fill="currentColor"
+        stroke-width="0"
+        viewBox="0 0 24 24"
+        height="20px"
+        width="20px"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path stroke-width="2" d="M3,3 L21,21 M3,21 L21,3"></path>
+      </svg>
+    </div>
+    <div style="font-size: 20px;">save up to</div>
+    <div style="font-size: 76px;color: #eb5542;border: 5px solid;line-height: 80px;margin: 10px;">50 %</div>
+    <div style="font-size: 20px;">on your next order</div>
+  </div>
+</div>
+
+<script>
+  const thisProductMsg = {{ product | json }}
+</script>
+<script src="{{ 'popup.js' | asset_url }}"></script>
