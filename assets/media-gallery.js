@@ -32,10 +32,8 @@ if (!customElements.get('media-gallery')) {
       if (prepend) {
         activeMedia.parentElement.prepend(activeMedia);
         if (this.elements.thumbnails) {
-          const activeThumbnail = this.elements.thumbnails.querySelector(`[data-target="${mediaId}"]`);
-          if (activeThumbnail) {
-            activeThumbnail.parentElement.prepend(activeThumbnail);
-          }
+          const activeThumbnail = this.elements.thumbnails.querySelector(`[data-target="${ mediaId }"]`);
+          activeThumbnail.parentElement.prepend(activeThumbnail);
         }
         if (this.elements.viewer.slider) this.elements.viewer.resetPages();
       }
