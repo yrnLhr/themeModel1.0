@@ -6,13 +6,6 @@ console.log(thisProductMsg)
 
 const urlParams = new URLSearchParams(window.location.search)
 
-// 显示页面刷新
-window.addEventListener('pageshow', function (e) {
-  if (e.persisted) {
-    window.location.reload()
-  }
-})
-
 // 展示loading
 const showLoading = (show) => {
   if (show) {
@@ -22,6 +15,13 @@ const showLoading = (show) => {
   }
 }
 showLoading(false)
+
+// 显示页面刷新
+window.addEventListener('pageshow', function (e) {
+  if (e.persisted) {
+    window.location.reload()
+  }
+})
 
 // 监听表单提交事件
 setTimeout(() => {
@@ -104,14 +104,14 @@ if (urlParams.get('show')) {
     }, 1200)
   }
 
-  function containsOnly(array, element) {
-    return array.every(function (item) {
-      return item === element
-    })
+  // 判断数组中是否只有 loaded
+  function checkArrLoaded() {
+    const res = userJourney.filter((e) => e !== 'loaded')
+    return res.length
   }
 
   // 第一次进来
-  if (userJourney.length === 0 || containsOnly(userJourney, 'loaded')) {
+  if (userJourney.length === 0 || checkArrLoaded() === 0) {
     // 写上第一次的参数
     if (template === 'discount') {
       $('#top-box').html('')
@@ -134,14 +134,15 @@ if (urlParams.get('show')) {
       $('#top-box').css({ display: 'block' })
     } else if (template === 'discount3') {
       $('#tl-off-box').css({ display: 'flex' })
-      $('#tl-off-box').click(() => {
+      $('.tl-close').click(() => {
         $('#tl-off-box').css({ display: 'none' })
         showLoading(true)
-        setUserJourney('first')
         window.location = `${_url}/discount/0?${window.location.search.replace(
           '?',
           ''
         )}&redirect=/products/${productName}`
+        setUserJourney('first')
+        showLoading(true)
       })
     }
   }
@@ -173,11 +174,12 @@ if (urlParams.get('show')) {
     userJourney.includes('two') ||
     userJourney.includes('two2') ||
     userJourney.includes('two3') ||
-    (userJourney.includes('void') && userJourney[0] === 'loaded')
+    (userJourney.includes('void') &&
+      userJourney[0] === 'loaded' &&
+      userJourney.join().includes('two'))
   ) {
     // 先清空click
     $('#top-box').unbind()
-    $('#top-box').css({ display: 'block' })
 
     // 样式
     if (template == 'discount' || template == 'discount3') {
@@ -266,15 +268,13 @@ if (urlParams.get('show')) {
         window.location = `${_url}/cart/${productId}:1?discount=${code3}`
       })
     }
+    // 最后展示弹窗效果
+    $('#top-box').css({ display: 'block' })
   }
   // 第二次
-  else if (
-    userJourney[0] === 'loaded' &&
-    userJourney.join().includes('first')
-  ) {
+  else if (userJourney[0] === 'loaded' && userJourney.includes('first')) {
     // 先清空click
     $('#top-box').unbind()
-    $('#top-box').css({ display: 'block' })
 
     if (template == 'discount' || template == 'discount3') {
       $('#tl-title').css({
@@ -313,6 +313,7 @@ if (urlParams.get('show')) {
 
     if (tlPopupLevel == '0') {
       const skip = () => {
+        $('#top-box').fadeOut('fast')
         // 展示领取成功
         window.location = `${_url}/discount/${code2}?${window.location.search.replace(
           '?',
@@ -320,19 +321,17 @@ if (urlParams.get('show')) {
         )}&redirect=/products/${productName}`
         setUserJourney('two2')
         $('#top-box').css({ display: 'none' })
-        showLoading(true)
       }
       $('.tl-close').click(skip)
       $('#tl-btn').click(skip)
     } else if (tlPopupLevel == '1') {
       $('.tl-close').click(() => {
-        $('#top-box').css({ display: 'none' })
-        showLoading(true)
-        setUserJourney('void')
         window.location = `${_url}/discount/0?${window.location.search.replace(
           '?',
           ''
         )}&redirect=/products/${productName}`
+        setUserJourney('void')
+        $('#top-box').css({ display: 'none' })
       })
       $('#tl-btn').click((e) => {
         showLoading(true)
@@ -341,6 +340,8 @@ if (urlParams.get('show')) {
         $('#top-box').css({ display: 'none' })
       })
     }
+    // 最后展示弹窗效果
+    $('#top-box').css({ display: 'block' })
   }
 
   setUserJourney('loaded')

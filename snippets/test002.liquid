@@ -1,5 +1,5 @@
-<style>
-  .tl-loading-point {
+{% stylesheet %}
+  .loading {
     margin: 20px;
     position: relative;
     width: 15px;
@@ -11,8 +11,8 @@
     animation-fill-mode: both;
   }
 
-  .tl-loading-point:before,
-  .tl-loading-point:after {
+  .loading:before,
+  .loading:after {
     position: absolute;
     width: 15px;
     height: 15px;
@@ -23,12 +23,12 @@
     background-color: #fff;
   }
 
-  .tl-loading-point:before {
+  .loading:before {
     top: 0;
     left: -28px;
   }
 
-  .tl-loading-point:after {
+  .loading:after {
     top: 0;
     left: 25px;
   }
@@ -46,7 +46,7 @@
       transform: rotate(360deg) scale(1);
     }
   }
-</style>
+{% endstylesheet %}
 
 <div
   id="top-box"
@@ -206,7 +206,7 @@
     background: rgba(0, 0, 0, 0.2);
   "
 >
-  <div class="tl-loading-point"></div>
+  <div class="loading"></div>
 </div>
 
 {% comment %} 垂直居中组件 {% endcomment %}
@@ -264,11 +264,9 @@
         <path stroke-width="2" d="M3,3 L21,21 M3,21 L21,3"></path>
       </svg>
     </div>
-    <div style="font-size: 20px;font-weight:900">save up to</div>
-    <div style="font-size: 76px;color: #eb5542;border: 5px solid;line-height: 80px;margin: 10px;font-weight:900">
-      {{ product.compare_at_price | minus: product.price | times: 100 | divided_by: product.compare_at_price }}%
-    </div>
-    <div style="font-size: 20px;font-weight:900">on your next order</div>
+    <div style="font-size: 20px;">save up to</div>
+    <div style="font-size: 76px;color: #eb5542;border: 5px solid;line-height: 80px;margin: 10px;">50 %</div>
+    <div style="font-size: 20px;">on your next order</div>
   </div>
 </div>
 
